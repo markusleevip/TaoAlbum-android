@@ -31,19 +31,32 @@
                 style="@style/Album.WrapContent.WidthMatchParent"
                 android:orientation="horizontal">
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="30dp"
                     android:layout_height="match_parent"
-                    android:text="@string/main_tips"/>
-            </LinearLayout>
-            <LinearLayout
-                style="@style/Album.WrapContent.WidthMatchParent"
-                android:orientation="horizontal">
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:text="@string/main_tips_ip"/>
                 <EditText
                     android:id="@+id/txt_address"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_width="120dp"
+                    android:layout_height="match_parent"
+                    android:maxLength="15"/>
+                <TextView
+                    android:layout_width="20dp"
+                    android:layout_height="match_parent"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:text="@string/main_tips_port"/>
+                <EditText
+                    android:id="@+id/txt_port"
+                    android:layout_width="80dp"
+                    android:layout_height="match_parent"
+                    android:maxLength="5"/>
             </LinearLayout>
-
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/btn_save_ip"
+                style="@style/Album.Button.Main"
+                android:text="@string/btn_txt_save_ip" />
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/btn_album"
                 style="@style/Album.Button.Main"

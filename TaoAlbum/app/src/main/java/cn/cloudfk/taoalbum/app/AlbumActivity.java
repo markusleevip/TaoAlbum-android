@@ -30,6 +30,7 @@ import cn.cloudfk.taoalbum.R;
 import cn.cloudfk.taoalbum.data.DataTool;
 import cn.cloudfk.taoalbum.data.model.AlbumModel;
 import cn.cloudfk.taoalbum.utils.HttpAssist;
+import cn.cloudfk.taoalbum.utils.ToolsView;
 
 public class AlbumActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -93,20 +94,19 @@ public class AlbumActivity extends AppCompatActivity implements View.OnClickList
                 .onCancel(new Action<String>() {
                     @Override
                     public void onAction(@NonNull String result) {
-                        Toast.makeText(AlbumActivity.this, R.string.canceled, Toast.LENGTH_LONG).show();
+                        ToolsView.ToastToCenter(AlbumActivity.this, R.string.canceled, Toast.LENGTH_SHORT);
                     }
                 })
                 .start();
     }
 
     private void uploadAlbum(){
-        Toast.makeText(this, "call uploadAlbum", Toast.LENGTH_LONG).show();
+        ToolsView.ToastToCenter(this,"call uploadAlbum",Toast.LENGTH_SHORT);
         if (mAlbumFiles!= null && mAlbumFiles.size()>0){
             for (AlbumFile file :mAlbumFiles){
                 Log.i(TAG,"file.getPath()"+file.getPath());
-                Toast.makeText(this,file.getBucketName(),Toast.LENGTH_LONG);
-                Toast.makeText(this, file.getPath()+file.getBucketName(), Toast.LENGTH_SHORT).show();
 
+                ToolsView.ToastToCenter(this,file.getBucketName(),Toast.LENGTH_LONG);
                 final String fileNameAll = file.getPath();
                 final String fileName = file.getPath() ;
                 AlbumModel albumModel = DataTool.queryAlbumByFileName(fileName);
@@ -117,7 +117,7 @@ public class AlbumActivity extends AppCompatActivity implements View.OnClickList
                     albumModel.state=0;
                     DataTool.insertAlbum(albumModel);
                 }else if (albumModel.state !=null &&albumModel.state.intValue() ==1){
-                    Toast.makeText(this,file.getBucketName()+",已经上传过了",Toast.LENGTH_LONG);
+                    ToolsView.ToastToCenter(this,file.getBucketName()+",已经上传过了",Toast.LENGTH_SHORT);
                     Log.i(TAG,"文件已经上传过了:"+fileName);
                     isUpload = false;
                 }
@@ -136,7 +136,7 @@ public class AlbumActivity extends AppCompatActivity implements View.OnClickList
                     }).start();
                 }else{
                     Log.i(TAG,"文件已经上传或不存在:"+file.getPath());
-                    Toast.makeText(this, "文件已经上传或不存在。", Toast.LENGTH_LONG).show();
+                    ToolsView.ToastToCenter(this, "文件已经上传或不存在。", Toast.LENGTH_SHORT);
                 }
             }
         }
@@ -146,7 +146,7 @@ public class AlbumActivity extends AppCompatActivity implements View.OnClickList
      */
     private void previewAlbum(int position) {
         if (mAlbumFiles == null || mAlbumFiles.size() == 0) {
-            Toast.makeText(this, R.string.no_selected, Toast.LENGTH_LONG).show();
+            ToolsView.ToastToCenter(this, R.string.no_selected, Toast.LENGTH_SHORT);
         } else {
             Album.galleryAlbum(this)
                     .checkable(true)

@@ -12,15 +12,19 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import cn.cloudfk.taoalbum.activity.UploadActivity;
 import cn.cloudfk.taoalbum.app.AlbumActivity;
 import cn.cloudfk.taoalbum.data.DBAdapter;
 import cn.cloudfk.taoalbum.data.GlobalData;
 import cn.cloudfk.taoalbum.data.GlobalParam;
 import cn.cloudfk.taoalbum.data.model.ProfileModel;
 import cn.cloudfk.taoalbum.service.UploadService;
+import cn.cloudfk.taoalbum.utils.Tools;
+import cn.cloudfk.taoalbum.utils.ToolsView;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener ,View.OnFocusChangeListener{
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "MainActivity";
     private Activity context;
@@ -32,7 +36,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private DBAdapter dbAdapter;
 
     private String fieldName= "address";
-    private String initValue = "http://192.168.8.195:8000";
+
+    private String initIP="192.168.1.100";
+    private String initPort = "8000";
+    private String initValue = "http://"+initIP+":"+initPort;
     private static String realValue = "";
 
 
@@ -50,12 +57,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         actionBar.setDisplayHomeAsUpEnabled(false);
         findViewById(R.id.btn_album).setOnClickListener(this);
         findViewById(R.id.main_btn_upload).setOnClickListener(this);
+        findViewById(R.id.btn_save_ip).setOnClickListener(this);
         initParam();
-        EditText editText1 = findViewById(R.id.txt_address);
-        editText1.setText( GlobalData.param.getServerUrl());
-        findViewById(R.id.txt_address).setOnFocusChangeListener(this);
-
-
+        EditText ip = findViewById(R.id.txt_address);
+        EditText port = findViewById(R.id.txt_port);
+        ip.setText( GlobalData.param.getIP());
+        port.setText(GlobalData.param.getPort());
     }
 
     private void initParam(){
@@ -71,6 +78,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             dbAdapter.insertProfile(model);
         }
         param.setServerUrl(model.value);
+        param.setIP(Tools.UrlGetIP(model.value));
+        param.setPort(Tools.UrlGetPort(model.value));
         GlobalData.param = param;
         Log.i(TAG,"address:"+ model.value);
         realValue = model.value;
@@ -81,8 +90,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void saveAddress(){
         ProfileModel model = dbAdapter.queryProfileByName(fieldName);
-        EditText editText1 = findViewById(R.id.txt_address);
-        realValue = editText1.getText().toString();
+        EditText ipTxt = findViewById(R.id.txt_address);
+        EditText portTxt = findViewById(R.id.txt_port);
+        String ip = ipTxt.getText().toString();
+        String port = portTxt.getText().toString();
+
+        realValue = Tools.getUrl(ip,port);
         if(model!=null && !model.value.equals(realValue)){
             Log.i(TAG,"before realValue:"+ realValue);
             Log.i(TAG,"before saveAddress:"+ model.value);
@@ -90,6 +103,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             dbAdapter.updateProfile(model);
             model = dbAdapter.queryProfileByName(fieldName);
             initParam();
+            ToolsView.ToastToCenter(this,"Saved successfully.",Toast.LENGTH_LONG);
             Log.i(TAG,"after saveAddress:"+ model.value);
         }
     }
@@ -99,42 +113,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         int id = v.getId();
         switch (id){
-            case R.id.btn_album: {
+            case R.id.btn_save_ip: {
                 saveAddress();
+                break;
+            }
+            case R.id.btn_album: {
                 startActivity(new Intent(this, AlbumActivity.class));
                 break;
             }
             case R.id.main_btn_upload:{
-                Log.i(TAG,"启动UploadService.");
-                Intent startIntent = new Intent(this, UploadService.class);
-                startService(startIntent);
+                Log.i(TAG,"Start uploadService.");
+                startActivity(new Intent(this, UploadActivity.class));
 
-            }
-
-        }
-
-    }
-
-    public static MainActivity getInstance(){
-        return instance;
-    }
-    public void runOnMainThread(Runnable runnable){
-        if(mainThreadHandler != null){
-            mainThreadHandler.post(runnable);
-            return;
-        }
-        this.runOnUiThread(runnable);
-
-    }
-
-    @Override
-    public void onFocusChange(View v, boolean hasFocus) {
-        int id = v.getId();
-        switch (id){
-            case R.id.txt_address:{
-                if (!hasFocus)
-                    saveAddress();
+                break;
             }
         }
+
     }
+
 }

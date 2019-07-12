@@ -16,24 +16,39 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.cloudfk.taoalbum.data.DataTool;
+import cn.cloudfk.taoalbum.data.GlobalData;
 import cn.cloudfk.taoalbum.data.model.AlbumModel;
 import cn.cloudfk.taoalbum.utils.HttpAssist;
+import cn.cloudfk.taoalbum.utils.ToolsView;
 
 public class UploadService extends Service {
 
+    public static int UploadFiles = 0;
+    public static int UploadCurrent = 0;
+    public static boolean UploadComplete=false;
     public static final String TAG = "UploadService";
 
     @Override
     public void onCreate() {
         super.onCreate();
         Log.i(TAG, "UploadService.onCreate()");
+        init();
+
+    }
+
+    private void init(){
+        UploadFiles = 0;
+        UploadCurrent=0;
+        UploadComplete=false;
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.d(TAG, "UploadService.onStartCommand");
+        init();
         List<String> albumList = getSystemPhotoList(this);
         if (albumList!=null && albumList.size()>0){
+            UploadFiles = albumList.size();
             for (String filePath : albumList) {
                 Log.d(TAG, "path="+filePath);
                 final String fileNameAll = filePath;
@@ -44,9 +59,9 @@ public class UploadService extends Service {
                     albumModel.fileName = filePath;
                     albumModel.state=0;
                     DataTool.insertAlbum(albumModel);
-                }else if (albumModel.state !=null &&albumModel.state.intValue() ==1){
-                    Toast.makeText(this,filePath+",已经上传过了",Toast.LENGTH_LONG);
-                    Log.i(TAG,"文件已经上传过了:"+filePath);
+                }else if (albumModel.state !=null &&albumModel.state.intValue() ==AlbumModel.SUCCESS){
+                    //ToolsView.ToastToCenter(this,filePath+",The file has been uploaded",Toast.LENGTH_SHORT);
+                    Log.i(TAG,"The file has been uploaded:"+filePath);
                     isUpload = false;
                 }
                 File inFile = new File(filePath);
@@ -54,17 +69,24 @@ public class UploadService extends Service {
                     new Thread(new Runnable() {
                         @Override
                         public void run(){
-                            HttpAssist.getInstance().uploadFile(new File(fileNameAll));
+                            String uploadState = HttpAssist.getInstance().uploadFile(new File(fileNameAll));
                             AlbumModel albumModel = new AlbumModel();
                             albumModel.fileName = fileNameAll;
-                            albumModel.state=1;
+                            if (uploadState!=null && HttpAssist.SUCCESS.equals(uploadState)) {
+                                albumModel.state = AlbumModel.SUCCESS;
+                            }else {
+                                albumModel.state = AlbumModel.FAIL;
+                                ToolsView.ToastToCenter(GlobalData.context,fileNameAll+",upload fail",Toast.LENGTH_SHORT);
+                            }
                             DataTool.updateAlbum(albumModel);
+                            UploadCurrent++;
                         }
 
                     }).start();
                 }else{
-                    Log.i(TAG,"文件已经上传或不存在:"+filePath);
-                    Toast.makeText(this, "文件已经上传或不存在。"+filePath, Toast.LENGTH_LONG).show();
+                    UploadCurrent++;
+                    Log.i(TAG,"The file has been uploaded or does not exist:"+filePath);
+                    //ToolsView.ToastToCenter(this, "The file has been uploaded or does not exist。"+filePath, Toast.LENGTH_SHORT);
                 }
             }
         }
@@ -76,8 +98,7 @@ public class UploadService extends Service {
         return null;
     }
 
-    public static List<String> getSystemPhotoList(Context context)
-    {
+    public static List<String> getSystemPhotoList(Context context){
         List<String> result = new ArrayList<String>();
         Uri uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
 

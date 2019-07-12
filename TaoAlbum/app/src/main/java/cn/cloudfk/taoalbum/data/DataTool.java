@@ -18,9 +18,4 @@ public class DataTool {
     public static AlbumModel queryAlbumByFileName(String fileName){
         return dbAdapter.queryAlbumByFileName(fileName);
     }
-
-
-
-
-
 }

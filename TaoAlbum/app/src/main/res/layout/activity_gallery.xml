@@ -14,12 +14,11 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     style="@style/Album.MatchParent">
 
-    <include layout="@layout/toolbar"/>
+    <include layout="@layout/toolbar" />
 
     <LinearLayout
         style="@style/Album.MatchParent"
@@ -29,14 +28,14 @@
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/btn_gallery"
             style="@style/Album.Button.Main"
-            android:text="@string/btn_gallery_preview"/>
+            android:text="@string/btn_gallery_preview" />
 
         <android.support.v7.widget.AppCompatCheckBox
             android:id="@+id/checkbox"
             style="@style/Album.WrapContent"
             android:layout_marginTop="@dimen/album_dp_10"
             android:checked="true"
-            android:text="@string/checkable"/>
+            android:text="@string/checkable" />
 
     </LinearLayout>
 

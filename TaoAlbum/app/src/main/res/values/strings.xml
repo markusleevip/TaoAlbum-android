@@ -17,13 +17,15 @@
 <resources>
     <string name="app_name">TaoAlbum</string>
 
-    <string name="btn_upload">上传选中</string>
-    <string name="btn_uploadAll">上传全部</string>
-    <string name="main_tips">IP地址:请填入服务端地址</string>
+    <string name="btn_upload">up selected</string>
+    <string name="btn_uploadAll">up all</string>
+    <string name="btn_txt_save_ip">save config</string>
+    <string name="main_tips_ip">IP:</string>
+    <string name="main_tips_port">:</string>
 
 
     <string name="btn_function_camera">Camera</string>
-    <string name="btn_function_album">选择照片和视频</string>
+    <string name="btn_function_album">Photos</string>
     <string name="btn_function_picture">Only Pictures</string>
     <string name="btn_function_video">Only Videos</string>
     <string name="btn_function_gallery">Gallery</string>
@@ -59,4 +61,6 @@
     <string name="hint_filter_after_visibility">Did you show the filtered files?</string>
     <string name="filter_after_visibility_visible">Show</string>
     <string name="filter_after_visibility_gone">Hide</string>
+
+    <string name="activity_upload_title">Upload album</string>
 </resources>
