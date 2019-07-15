@@ -18,7 +18,7 @@
     <string name="app_name">TaoAlbum</string>
 
     <string name="btn_upload">up selected</string>
-    <string name="btn_uploadAll">up all</string>
+    <string name="btn_uploadAll">UP ALL</string>
     <string name="btn_txt_save_ip">save config</string>
     <string name="main_tips_ip">IP:</string>
     <string name="main_tips_port">:</string>
@@ -62,5 +62,5 @@
     <string name="filter_after_visibility_visible">Show</string>
     <string name="filter_after_visibility_gone">Hide</string>
 
-    <string name="activity_upload_title">Upload album</string>
+    <string name="activity_upload_title">Upload Album</string>
 </resources>

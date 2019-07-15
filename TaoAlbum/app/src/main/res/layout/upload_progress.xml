@@ -1,16 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-<cn.cloudfk.taoalbum.view.UploadProgressBar
-    android:id="@+id/uploadProgressBar"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:max="100"/>
-
-    <!--<ProgressBar-->
-        <!--android:id="@+id/uploadProgressBar"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:max="100"/>-->
-</LinearLayout>
+    <include layout="@layout/toolbar"/>
+    <cn.cloudfk.taoalbum.view.UploadProgressBar
+        android:id="@+id/uploadProgressBar"
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        android:max="100"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_marginTop="150dp"
+        android:layout_height="100px">
+        <TextView
+            android:id="@+id/uploadSizeTxt"
+            android:layout_width="match_parent"
+            android:textSize="18sp"
+            android:gravity="center"
+            android:layout_height="100dp" />
+    </RelativeLayout>
+</RelativeLayout>
