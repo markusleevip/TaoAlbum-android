@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import cn.cloudfk.taoalbum.activity.ServerAlbumListActivity;
 import cn.cloudfk.taoalbum.activity.UploadActivity;
 import cn.cloudfk.taoalbum.app.AlbumActivity;
 import cn.cloudfk.taoalbum.data.DBAdapter;
@@ -58,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.btn_album).setOnClickListener(this);
         findViewById(R.id.main_btn_upload).setOnClickListener(this);
         findViewById(R.id.btn_save_ip).setOnClickListener(this);
+        findViewById(R.id.main_btn_server_album_list).setOnClickListener(this);
         initParam();
         EditText ip = findViewById(R.id.txt_address);
         EditText port = findViewById(R.id.txt_port);
@@ -125,6 +127,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Log.i(TAG,"Start uploadService.");
                 startActivity(new Intent(this, UploadActivity.class));
 
+                break;
+            }
+            case R.id.main_btn_server_album_list: {
+                startActivity(new Intent(this, ServerAlbumListActivity.class));
                 break;
             }
         }

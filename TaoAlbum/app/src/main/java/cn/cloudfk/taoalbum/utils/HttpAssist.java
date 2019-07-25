@@ -2,6 +2,7 @@ package cn.cloudfk.taoalbum.utils;
 
 import android.util.Log;
 
+import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -19,8 +20,10 @@ public class HttpAssist {
     private static final String TAG = "HttpAssist";
     private static final int TIME_OUT = 10 * 10000000; // 超时时间
     private static final String CHARSET = "utf-8"; // 设置编码
+    final static int BUFFER_SIZE = 4096;
     public static final String SUCCESS = "1";
     public static final String FAILURE = "0";
+
 
     private static HttpAssist instance;
 
@@ -31,6 +34,44 @@ public class HttpAssist {
         return instance;
     }
 
+    /**
+     * 将InputStream转换成String
+     * @param in InputStream
+     * @return String
+     * @throws Exception
+     *
+     */
+    public static String InputStreamTOString(InputStream in) throws Exception{
+
+        ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+        byte[] data = new byte[BUFFER_SIZE];
+        int count = -1;
+        while((count = in.read(data,0,BUFFER_SIZE)) != -1)
+            outStream.write(data, 0, count);
+
+        data = null;
+        return new String(outStream.toByteArray(),CHARSET);
+    }
+
+    public String getImgList(){
+        try {
+            String path  =GlobalData.param.getServerUrl()+"/albums";
+            URL url = new URL(path);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setConnectTimeout(5000);
+            conn.setRequestMethod("GET");
+            if (conn.getResponseCode() == 200) {
+                InputStream inputStream = conn.getInputStream();
+                String context =  InputStreamTOString(inputStream);
+                return context;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     public String uploadFile(File file) {
         String BOUNDARY = UUID.randomUUID().toString(); // 边界标识 随机生成

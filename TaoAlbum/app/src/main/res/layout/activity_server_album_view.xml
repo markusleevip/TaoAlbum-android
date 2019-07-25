@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout style="@style/Album.MatchParent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <include layout="@layout/toolbar" />
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        style="@style/Album.MatchParent">
+        <ImageView
+            android:id="@+id/server_image_view"
+            style="@style/Album.WrapContent" />
+    </LinearLayout>
+
+</android.support.design.widget.CoordinatorLayout>

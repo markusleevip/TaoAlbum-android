@@ -17,11 +17,13 @@
 <resources>
     <string name="app_name">TaoAlbum</string>
 
-    <string name="btn_upload">up selected</string>
+    <string name="btn_upload">UPLOAD SELECTED</string>
     <string name="btn_uploadAll">UP ALL</string>
-    <string name="btn_txt_save_ip">save config</string>
+    <string name="btn_txt_save_ip">SAVE CONFIG</string>
     <string name="main_tips_ip">IP:</string>
     <string name="main_tips_port">:</string>
+    <string name="btn_server_album_list">SERVER ALBUM</string>
+
 
 
     <string name="btn_function_camera">Camera</string>
