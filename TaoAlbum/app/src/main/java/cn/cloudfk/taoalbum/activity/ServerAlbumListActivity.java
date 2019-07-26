@@ -1,13 +1,12 @@
 package cn.cloudfk.taoalbum.activity;
 
 
-import android.graphics.Bitmap;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
@@ -17,6 +16,8 @@ import java.util.List;
 import java.util.Map;
 
 import cn.cloudfk.taoalbum.R;
+import cn.cloudfk.taoalbum.common.IntentUtil;
+import cn.cloudfk.taoalbum.data.GlobalData;
 import cn.cloudfk.taoalbum.data.dto.ResourceDto;
 import cn.cloudfk.taoalbum.data.dto.ResultData;
 import cn.cloudfk.taoalbum.utils.HttpAssist;
@@ -49,6 +50,7 @@ public class ServerAlbumListActivity extends AppCompatActivity {
                                     for (ResourceDto res : resList) {
                                         Map<String, String> map = new HashMap<String, String>();
                                         map.put("fileName", res.getFileName());
+                                        Log.i(TAG,"fileName="+res.getFileName());
                                         list.add(map);
                                     }
                                 }
@@ -64,9 +66,11 @@ public class ServerAlbumListActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,long arg3) {
                 Map<String, String> map = list.get(arg2);
-                String str = "";
-                str += map.get("fileName");
-                Log.i(TAG,"This was selected photo:"+str);
+                String fileName = map.get("fileName");
+                Log.i(TAG,"This was selected photo:"+fileName);
+                Intent intent = new Intent(GlobalData.context, ServerAlbumViewActivity.class);
+                intent.putExtra(IntentUtil.FILENAME_KEY,fileName);
+                startActivity(intent);
             }
         });
 

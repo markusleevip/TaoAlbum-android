@@ -13,6 +13,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import cn.cloudfk.taoalbum.R;
+import cn.cloudfk.taoalbum.common.IntentUtil;
+import cn.cloudfk.taoalbum.data.GlobalData;
 
 public class ServerAlbumViewActivity extends AppCompatActivity {
 
@@ -25,9 +27,10 @@ public class ServerAlbumViewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_server_album_view);
+        String fileName = getIntent().getStringExtra(IntentUtil.FILENAME_KEY);
         //server_image_view
         boolean isDownloadImg = false;
-        imgUrl = "http://127.0.0.1:8000/show/1563332742538981600.jpg";
+        imgUrl = GlobalData.param.getServerUrl()+"/show/"+fileName;
 
         new Thread(new Runnable() {
             @Override
