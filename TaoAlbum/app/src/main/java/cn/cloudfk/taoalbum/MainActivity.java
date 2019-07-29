@@ -21,7 +21,6 @@ import cn.cloudfk.taoalbum.data.DBAdapter;
 import cn.cloudfk.taoalbum.data.GlobalData;
 import cn.cloudfk.taoalbum.data.GlobalParam;
 import cn.cloudfk.taoalbum.data.model.ProfileModel;
-import cn.cloudfk.taoalbum.service.UploadService;
 import cn.cloudfk.taoalbum.utils.Tools;
 import cn.cloudfk.taoalbum.utils.ToolsView;
 
@@ -30,8 +29,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final String TAG = "MainActivity";
     private Activity context;
     private Application application;
-    private Handler mainThreadHandler;
-
     private static MainActivity instance;
 
     private DBAdapter dbAdapter;
@@ -50,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         instance = this;
         GlobalData.context = this;
-        mainThreadHandler = new Handler(Looper.getMainLooper());
+        GlobalData.mainThreadHandler = new Handler(Looper.getMainLooper());
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -130,6 +127,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             }
             case R.id.main_btn_server_album_list: {
+                Log.i(TAG,"Start ServerAlbumListActivity.");
                 startActivity(new Intent(this, ServerAlbumListActivity.class));
                 break;
             }
