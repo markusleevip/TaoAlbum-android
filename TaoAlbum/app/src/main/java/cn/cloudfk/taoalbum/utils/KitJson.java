@@ -12,10 +12,6 @@ import cn.cloudfk.taoalbum.data.dto.ResultData;
 
 public class KitJson {
 
-    public static void ParseJson(String json){
-
-    }
-
     public static ResultData toResultData(String json){
         ResultData ret =new ResultData();
         try {

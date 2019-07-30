@@ -32,7 +32,6 @@ public class UploadActivity extends AppCompatActivity {
         progressBarMax = progressBar.getMax();
         uploadSizeTxt = findViewById(R.id.uploadSizeTxt);
 
-
         new Thread(new Runnable() {
             @Override
             public void run() {

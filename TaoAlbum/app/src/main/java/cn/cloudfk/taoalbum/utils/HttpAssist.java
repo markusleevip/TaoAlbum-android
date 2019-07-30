@@ -1,5 +1,7 @@
 package cn.cloudfk.taoalbum.utils;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import java.io.ByteArrayOutputStream;
@@ -48,27 +50,57 @@ public class HttpAssist {
         int count = -1;
         while((count = in.read(data,0,BUFFER_SIZE)) != -1)
             outStream.write(data, 0, count);
-
+        in.close();
         data = null;
         return new String(outStream.toByteArray(),CHARSET);
     }
 
     public String getImgList(){
+        HttpURLConnection conn = null;
         try {
             String path  =GlobalData.param.getServerUrl()+"/albums";
             URL url = new URL(path);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn = (HttpURLConnection) url.openConnection();
             conn.setConnectTimeout(5000);
             conn.setRequestMethod("GET");
             if (conn.getResponseCode() == 200) {
                 InputStream inputStream = conn.getInputStream();
                 String context =  InputStreamTOString(inputStream);
+                inputStream.close();
                 return context;
             }
         } catch (IOException e) {
             e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
+        }finally {
+            if (conn != null) {
+                conn.disconnect();
+            }
+        }
+        return null;
+    }
+
+    public Bitmap getBitmap(String path)  {
+        HttpURLConnection conn = null;
+        try {
+            URL url = new URL(path);
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setConnectTimeout(5000);
+            conn.setRequestMethod("GET");
+            if (conn.getResponseCode() == 200) {
+                InputStream inputStream = conn.getInputStream();
+                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                inputStream.close();
+                return bitmap;
+            }
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }finally {
+            if (conn != null) {
+                conn.disconnect();
+            }
         }
         return null;
     }
@@ -81,10 +113,10 @@ public class HttpAssist {
         String RequestURL = GlobalData.param.getServerUrl()+"/upload/";
 
         Log.i(TAG,"uploadFile.RequestURL="+RequestURL);
-
+        HttpURLConnection conn = null;
         try {
             URL url = new URL(RequestURL);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn = (HttpURLConnection) url.openConnection();
             conn.setReadTimeout(TIME_OUT);
             conn.setConnectTimeout(TIME_OUT);
             conn.setDoInput(true); // 允许输入流
@@ -129,10 +161,8 @@ public class HttpAssist {
                         .getBytes();
                 dos.write(end_data);
                 dos.flush();
-                /**
-                 * 获取响应码 200=成功 当响应成功，获取响应的流
-                 */
                 int res = conn.getResponseCode();
+                outputSteam.close();
                 if (res == 200) {
                     return SUCCESS;
                 }
@@ -141,6 +171,10 @@ public class HttpAssist {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            if (conn != null) {
+                conn.disconnect();
+            }
         }
         return FAILURE;
     }

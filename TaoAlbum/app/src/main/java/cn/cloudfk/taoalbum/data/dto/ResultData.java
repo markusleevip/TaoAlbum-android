@@ -7,6 +7,9 @@ public class ResultData implements Serializable {
     private String msg;
     private Object data;
 
+    public static  int SUCCESS=1;
+    public static int FAIL=0;
+
     public boolean isSuccess(){
         return state ==1;
     }

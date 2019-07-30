@@ -5,7 +5,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -26,6 +28,7 @@ import cn.cloudfk.taoalbum.data.dto.ResultData;
 public class ServerAlbumListActivity extends AppCompatActivity implements ServiceHelper.ServiceCallback {
 
     private static final String TAG = "ServerAlbumListActivity";
+    private Toolbar mToolbar;
     private List<ResourceDto> resList = null;
     List<Map<String, String>> list;
     ListView photoListView;
@@ -36,6 +39,8 @@ public class ServerAlbumListActivity extends AppCompatActivity implements Servic
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_server_album_list);
+        mToolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
         photoListView = findViewById(R.id.server_listView);
         callback = this;
         context = this;
@@ -60,9 +65,21 @@ public class ServerAlbumListActivity extends AppCompatActivity implements Servic
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case android.R.id.home: {
+                finish();
+                break;
+            }
+        }
+        return true;
+    }
+
+    @Override
     public void onSuccess(String service, ResultData ret) {
         Log.i(TAG,"service="+service+".onSuccess");
-        if (ServiceHelper.PHOTO_LIST.equals(service)){
+        if (ServiceHelper.PHOTO_LIST_KEY.equals(service)){
             if (ret != null && ret.isSuccess()) {
                 if (ret.getData()!=null){
                     resList = ( List<ResourceDto>)ret.getData();
