@@ -65,4 +65,5 @@
     <string name="filter_after_visibility_gone">Hide</string>
 
     <string name="activity_upload_title">Upload Album</string>
+    <string name="album_list_date">Date:</string>
 </resources>

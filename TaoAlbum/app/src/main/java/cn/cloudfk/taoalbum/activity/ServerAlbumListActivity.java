@@ -10,8 +10,10 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.Spinner;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,8 +26,9 @@ import cn.cloudfk.taoalbum.common.IntentUtil;
 import cn.cloudfk.taoalbum.data.GlobalData;
 import cn.cloudfk.taoalbum.data.dto.ResourceDto;
 import cn.cloudfk.taoalbum.data.dto.ResultData;
+import cn.cloudfk.taoalbum.utils.Tools;
 
-public class ServerAlbumListActivity extends AppCompatActivity implements ServiceHelper.ServiceCallback {
+public class ServerAlbumListActivity extends AppCompatActivity implements ServiceHelper.ServiceCallback , AdapterView.OnItemSelectedListener {
 
     private static final String TAG = "ServerAlbumListActivity";
     private Toolbar mToolbar;
@@ -34,6 +37,12 @@ public class ServerAlbumListActivity extends AppCompatActivity implements Servic
     ListView photoListView;
     ServiceHelper.ServiceCallback callback;
     Activity context;
+
+    private Spinner spinnerDate;
+    private ArrayAdapter<String> adapterDate;
+    List<String> dateList;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +53,12 @@ public class ServerAlbumListActivity extends AppCompatActivity implements Servic
         photoListView = findViewById(R.id.server_listView);
         callback = this;
         context = this;
+        dateList = Tools.getDateList();
+        spinnerDate = findViewById(R.id.selectDate);
+        adapterDate = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item,dateList);
+        adapterDate.setDropDownViewResource(R.layout.activity_server_album_list_date_spinner_item);
+        spinnerDate.setAdapter(adapterDate);
+        spinnerDate.setOnItemSelectedListener(this);
         Log.i(TAG,"ServerAlbumListActivity.onCreate");
         photoListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -59,7 +74,7 @@ public class ServerAlbumListActivity extends AppCompatActivity implements Servic
         new Thread(new Runnable() {
             @Override
             public void run() {
-                ServiceHelper.photoList(callback);
+                ServiceHelper.photoList(dateList.get(1),callback);
             }
         }).start();
     }
@@ -111,6 +126,24 @@ public class ServerAlbumListActivity extends AppCompatActivity implements Servic
     @Override
     public void onFailure(String service, ResultData data) {
         Log.i(TAG,"service="+service+".onFailure");
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        Log.i(TAG,"Selected date is "+dateList.get(position));
+        photoListView.setAdapter(null);
+        final int index = position;
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                ServiceHelper.photoList(dateList.get(index),callback);
+            }
+        }).start();
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
 
     }
 }

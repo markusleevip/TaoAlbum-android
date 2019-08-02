@@ -55,10 +55,10 @@ public class HttpAssist {
         return new String(outStream.toByteArray(),CHARSET);
     }
 
-    public String getImgList(){
+    public String getImgList(String yyyymm){
         HttpURLConnection conn = null;
         try {
-            String path  =GlobalData.param.getServerUrl()+"/albums";
+            String path  =GlobalData.param.getServerUrl()+"/albums/"+yyyymm;
             URL url = new URL(path);
             conn = (HttpURLConnection) url.openConnection();
             conn.setConnectTimeout(5000);

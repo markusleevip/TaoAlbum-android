@@ -1,13 +1,7 @@
 package cn.cloudfk.taoalbum.callback;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.util.Log;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
 import cn.cloudfk.taoalbum.data.GlobalData;
 import cn.cloudfk.taoalbum.data.dto.ResultData;
@@ -25,9 +19,9 @@ public class ServiceHelper {
         void onFailure(String service, ResultData ret);
     }
 
-    public static void photoList( final ServiceCallback callback){
+    public static void photoList( String yyyymm,final ServiceCallback callback){
         Log.i(TAG,"call photoList.");
-        String content = HttpAssist.getInstance().getImgList();
+        String content = HttpAssist.getInstance().getImgList(yyyymm);
         if (content!=null){
             Log.i(TAG,"content.length="+content.length());
             ResultData ret = KitJson.toResultData(content);

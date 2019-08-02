@@ -1,5 +1,10 @@
 package cn.cloudfk.taoalbum.utils;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+
 public class Tools {
 
     /**
@@ -30,10 +35,22 @@ public class Tools {
 
     }
 
-
-
     public static String getUrl(String ip,String port) {
         return "http://"+ip+":"+port;
+    }
+
+    private static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMM");
+
+    public static List<String> getDateList(){
+        Calendar calendar = Calendar.getInstance();
+        List<String> dateList = new ArrayList<>();
+        // show all photos.
+        dateList.add("all");
+        for (int i=0; i < 24; i++){
+            dateList.add(simpleDateFormat.format(calendar.getTime()));
+            calendar.set(Calendar.MONTH,calendar.get(Calendar.MONTH)-1);
+        }
+        return dateList;
     }
 
 }
