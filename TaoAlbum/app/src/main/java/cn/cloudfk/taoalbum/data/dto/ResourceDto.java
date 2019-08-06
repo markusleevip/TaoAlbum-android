@@ -7,6 +7,7 @@ public class ResourceDto implements Serializable {
     private int fileSize;
     private String fileName;
     private String filePath;
+    private String preview;
 
     public int getFileSize() {
         return fileSize;
@@ -30,5 +31,13 @@ public class ResourceDto implements Serializable {
 
     public void setFilePath(String filePath) {
         this.filePath = filePath;
+    }
+
+    public String getPreview() {
+        return preview;
+    }
+
+    public void setPreview(String preview) {
+        this.preview = preview;
     }
 }

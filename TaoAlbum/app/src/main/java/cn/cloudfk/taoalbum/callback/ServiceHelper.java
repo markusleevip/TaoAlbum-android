@@ -21,6 +21,7 @@ public class ServiceHelper {
 
     public static void photoList( String yyyymm,final ServiceCallback callback){
         Log.i(TAG,"call photoList.");
+        Log.i(TAG,"call yyyymm="+yyyymm);
         String content = HttpAssist.getInstance().getImgList(yyyymm);
         if (content!=null){
             Log.i(TAG,"content.length="+content.length());

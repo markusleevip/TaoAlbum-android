@@ -19,6 +19,7 @@ public class ServerAlbumViewActivity extends AppCompatActivity implements Servic
     private ImageView imageview;
     private Bitmap bitmap =null;
     String fileName;
+    String filePath;
     private static final String TAG = "ServerAlbumViewActivity";
     private Toolbar mToolbar;
     ServiceHelper.ServiceCallback callback;
@@ -31,6 +32,7 @@ public class ServerAlbumViewActivity extends AppCompatActivity implements Servic
         mToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
         fileName = getIntent().getStringExtra(IntentUtil.FILENAME_KEY);
+        filePath = getIntent().getStringExtra(IntentUtil.FILEPATH_KEY);
         callback = this;
         context = this;
         //server_image_view
@@ -39,7 +41,7 @@ public class ServerAlbumViewActivity extends AppCompatActivity implements Servic
         new Thread(new Runnable() {
             @Override
             public void run() {
-                ServiceHelper.showPhoto(fileName,callback);
+                ServiceHelper.showPhoto(filePath+"/"+fileName,callback);
             }
         }).start();
     }

@@ -4,13 +4,8 @@
     android:layout_height="match_parent"
     android:gravity="center_vertical"
     android:orientation="horizontal" >
-
-    <TextView
-        android:id="@+id/album_ui_img_fileName"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginLeft="10dp"
-        android:textSize="20sp"
-        android:text="TEXT" />
-
+    <ImageView
+        android:id="@+id/album_ui_img_preview"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp" />
 </LinearLayout>

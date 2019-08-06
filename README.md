@@ -13,5 +13,7 @@
 <image src="./output/images/4.JPG" width="240px"/> <image src="./output/images/5.JPG" width="240px"/> <image src="./output/images/6.JPG" width="240px"/> 
 
 ## Changelog
-### 7/30/2019
+### Aug/6/2019
+Add thumbnail for photolist
+### Jul/30/2019
 Add get to server photos

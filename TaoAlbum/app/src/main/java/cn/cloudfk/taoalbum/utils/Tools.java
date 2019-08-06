@@ -44,12 +44,12 @@ public class Tools {
     public static List<String> getDateList(){
         Calendar calendar = Calendar.getInstance();
         List<String> dateList = new ArrayList<>();
-        // show all photos.
-        dateList.add("all");
-        for (int i=0; i < 24; i++){
+        for (int i=0; i < 18; i++){
             dateList.add(simpleDateFormat.format(calendar.getTime()));
             calendar.set(Calendar.MONTH,calendar.get(Calendar.MONTH)-1);
         }
+        // show all photos.
+        dateList.add("all");
         return dateList;
     }
 
